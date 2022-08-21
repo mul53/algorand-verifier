@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import environ
-import django_heroku
 
 env = environ.Env()
 environ.Env.read_env()
@@ -135,6 +134,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://mysterious-falls-27839.herokuapp.com', 'https://*.127.0.0.1']
-
-django_heroku.settings(locals())
+CSRF_TRUSTED_ORIGINS = ['http://ec2-3-142-48-148.us-east-2.compute.amazonaws.com/', 'https://*.127.0.0.1']
