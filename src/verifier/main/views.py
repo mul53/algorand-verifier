@@ -34,7 +34,11 @@ def verify(request):
     if request.method == 'POST':
         if appForm.is_valid() and appVersionForm.is_valid():
             verifier = Verification(request.POST)
-            (success, compiled_code) = verifier.verify_contract()
+
+            try:
+                (success, compiled_code) = verifier.verify_contract()
+            except:
+                messages.error(request, 'Verification Failed.')
 
             if success:
                 compiled_approval = compiled_code.get('app_approval')
