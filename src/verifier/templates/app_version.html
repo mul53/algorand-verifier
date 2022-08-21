@@ -1,0 +1,243 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div class="w-2/3 mx-auto">
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg my-6">
+      <div class="flex justify-between items-center px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Application Information
+        </h3>
+      </div>
+      <div class="border-t border-gray-200">
+        <dl>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm font-medium text-gray-500">Id</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ appVersion.app.id }}
+            </dd>
+          </div>
+          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Verified on</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ appVersion.verified_at }}
+            </dd>
+          </div>
+          <div
+            class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+          >
+            <dt class="text-sm font-medium text-gray-500">Sources</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {% if appVersion.source_type == "TL" %}
+                <a class="text-sky-500 hover:underline" href="{{ appVersion.source_approval_url }}" target="_blank" rel="noopener noreferrer">
+                  {{ appVersion.source_approval_url }}
+                </a>
+                <br/>
+                <a class="text-sky-500 hover:underline" href="{{ appVersion.source_clear_state_url }}" target="_blank" rel="noopener noreferrer">
+                  {{ appVersion.source_clear_state_url }}
+                </a>
+              {% else %}
+                <a
+                  class="text-sky-500 hover:underline"
+                  href="{{ appVersion.source_url }}" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  {{ appVersion.source_url }}
+                </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Version</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ appVersion.source_version }}
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  
+    <div class="my-6">
+      <h3 class="text-xl font-semibold">Approval Program</h3>
+      <div class="mb-4 border-b border-gray-200">
+        <ul
+          class="tabs flex flex-wrap -mb-px text-sm font-medium text-center"
+          data-tabs-toggle="#approval-tab-content"
+          data-tab-default="#approval-source"
+          role="tablist"
+        >
+          <li class="mr-2" role="presentation">
+              <button
+              class="inline-block p-4 rounded-t-lg border-b-2"
+              data-tabs-target="#approval-source"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              >
+              Source
+              </button>
+          </li>
+          <li class="mr-2" role="presentation">
+            <button
+              class="inline-block p-4 rounded-t-lg border-b-2"
+              data-tabs-target="#approval-decompiled"
+              type="button"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
+            >
+              Decompiled
+            </button>
+          </li>
+          <li class="mr-2" role="presentation">
+            <button
+              class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300"
+              id="dashboard-tab"
+              data-tabs-target="#approval-base64"
+              type="button"
+              role="tab"
+              aria-selected="false"
+            >
+              Base64
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div id="approval-tab-content">
+      <div
+          class="hidden p-4 bg-white rounded-lg h-80 break-words overflow-y-auto"
+          id="approval-source"
+          role="tabpanel"
+        >
+          <p class="text-sm text-gray-500">
+            <pre>
+              <code class="language-javascript">
+                {% if appVersion.source_type == "TL" %}
+                  {{ appVersion.source_approval }}
+                {% else %}
+                  {{ appVersion.source_raw }}
+                {% endif %}
+              </code>
+            </pre>
+          </p>
+        </div>
+        <div
+          class="hidden p-4 bg-white rounded-lg h-80 break-words overflow-y-auto"
+          id="approval-decompiled"
+          role="tabpanel"
+          aria-labelledby="profile-tab"
+        >
+          <p class="text-sm text-gray-500">
+            <pre>
+              <code class="language-javascript">
+                {{ appVersion.source_decompiled_approval }}
+              </code>
+            </pre>
+          </p>
+        </div>
+        <div
+          class="hidden p-4 bg-white rounded-lg h-80 break-words overflow-y-auto"
+          id="approval-base64"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab"
+        >
+          <p class="text-sm text-gray-500">
+            {{ appVersion.source_compiled_approval }}
+          </p>
+        </div>
+      </div>
+    </div>
+  
+    <div class="my-6">
+      <h3 class="text-xl font-semibold">Clear State Program</h3>
+      <div class="mb-4 border-b border-gray-200">
+        <ul
+          class="tabs flex flex-wrap -mb-px text-sm font-medium text-center"
+          data-tabs-toggle="#clear-tab-content"
+          data-tab-default="#clear-source"
+          role="tablist"
+        >
+          <li class="mr-2" role="presentation">
+              <button
+              class="inline-block p-4 rounded-t-lg border-b-2"
+              data-tabs-target="#clear-source"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              >
+              Source
+              </button>
+          </li>
+          <li class="mr-2" role="presentation">
+            <button
+              class="inline-block p-4 rounded-t-lg border-b-2"
+              data-tabs-target="#clear-decompiled"
+              type="button"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
+            >
+              Decompiled
+            </button>
+          </li>
+          <li class="mr-2" role="presentation">
+            <button
+              class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300"
+              data-tabs-target="#clear-base64"
+              type="button"
+              role="tab"
+              aria-selected="false"
+            >
+              Base64
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div id="clear-tab-content">
+      <div
+          class="hidden p-4 bg-white rounded-lg h-80 break-words overflow-y-auto"
+          id="clear-source"
+          role="tabpanel"
+        >
+          <p class="text-sm text-gray-500">
+            <pre>
+              <code class="language-javascript">
+                {% if appVersion.source_type == "TL" %}
+                  {{ appVersion.source_clear_state }}
+                {% else %}
+                    {{ appVersion.source_raw }}
+                {% endif %}
+              </code>
+            </pre>
+          </p>
+        </div>
+        <div
+          class="hidden p-4 bg-white rounded-lg h-80 break-words overflow-y-auto"
+          id="clear-decompiled"
+          role="tabpanel"
+          aria-labelledby="profile-tab"
+        >
+          <p class="text-sm text-gray-500">
+            <pre>
+              <code class="language-javascript">
+                {{ appVersion.source_decompiled_clear }}
+              </code>
+            </pre>
+          </p>
+        </div>
+        <div
+          class="hidden p-4 bg-white rounded-lg h-80 break-words overflow-y-auto"
+          id="clear-base64"
+          role="tabpanel"
+          aria-labelledby="dashboard-tab"
+        >
+          <p class="text-sm text-gray-500">
+            {{ appVersion.source_compiled_clear }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

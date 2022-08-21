@@ -1,0 +1,74 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div class="w-3/4 mx-auto mt-14">
+    <h3 class="text-2xl font-extrabold text-gray-900 text-center my-5">App Versions</h3>
+    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-white uppercase bg-gray-800">
+                <tr>
+                    <th scope="col" class="py-3 px-6">
+                        App Id
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Source Version
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Verified On
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Source Type
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Sources
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in appVersions %}
+                    <tr class="bg-white border-b">
+                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                            <a class="text-sky-500" href="{% url 'app' app.app.id %}">{{ app.app.id }}</a>
+                        </th>
+                        <td class="py-4 px-6">
+                            <a class="text-sky-500" href="{% url 'app_version' app.app.id app.source_version %}">{{ app.source_version }}</a>
+                        </td>
+                        <td class="py-4 px-6">
+                            {{ app.verified_at }}
+                        </td>
+                        <td class="py-4 px-6">
+                            {% if app.source_type == "TL" %}
+                                Teal
+                            {% elif app.source_type == "RH" %}
+                                Reach
+                            {% else %}
+                                PyTeal
+                            {% endif %}
+                        </td>
+                        <td class="py-4 px-6">
+                            {% if app.source_type == "TL" %}
+                                <a class="text-sky-500 hover:underline" href="{{ appVersion.source_approval_url }}" target="_blank" rel="noopener noreferrer">
+                                    {{ app.source_approval_url }}
+                                </a>
+                                <br/>
+                                <a class="text-sky-500 hover:underline" href="{{ appVersion.source_clear_state_url }}" target="_blank" rel="noopener noreferrer">
+                                    {{ app.source_clear_state_url }}
+                                </a>
+                                {% else %}
+                                <a
+                                    class="text-sky-500 hover:underline"
+                                    href="{{ appVersion.source_url }}" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                >
+                                    {{ app.source_url }}
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div> 
+</div>
+{% endblock %}

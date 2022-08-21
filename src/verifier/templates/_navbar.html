@@ -1,0 +1,21 @@
+<nav class="bg-gray-800">
+    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+                <a href="{% url 'index' %}" class="flex-shrink-0 flex items-center font-extrabold text-xl">
+                  <span class="text-white">Algo</span><span class="text-emerald-500">Verifier</span>
+                </a>
+                <div class="hidden sm:block sm:ml-6">
+                  <div class="flex space-x-4">
+                    <a href="{% url 'verify' %}" class="text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Verify</a>
+                  </div>
+                </div>
+            </div>
+            <div id="autocomplete" class="relative right-0 autocomplete">
+                <input type="text" placeholder="Search by application id" class="autocomplete-input py-2" />
+                <ul class="autocomplete-result-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

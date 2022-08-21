@@ -1,0 +1,97 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div class="w-1/2 mx-auto my-7">
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="shadow sm:rounded-md sm:overflow-hidden">
+          <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+              <h2 class="mt-3 text-3xl font-extrabold text-gray-900">Update App {{ app.id }}</h2>
+
+              <input type="hidden" name="id" value="{{ app.id }}" />
+  
+              <div class="col-span-6 sm:col-span-4">
+                <label for="id_source_version" class="block text-sm font-medium text-gray-700">Source Version</label>
+                <input type="number" name="source_version" id="id_source_version" value="{{ appVersionForm.source_version.value }}" autocomplete="source_version" class="mt-1 py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                {{ appVersionForm.source_version.errors }}
+                <p class="mt-2 text-sm text-gray-500">The new version of the app.</p>
+              </div>
+      
+              <div class="col-span-6 sm:col-span-3">
+                <label for="id_source_type" class="block text-sm font-medium text-gray-700">Source Type</label>
+                <select id="id_source_type" name="source_type" autocomplete="source_type" value="{{ appVersionForm.source_type.value }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <option value="TL" selected>Teal</option>
+                  <option value="RH">Reach</option>
+                </select>
+                {{ appVersionForm.source_type.errors }}
+                <p class="mt-2 text-sm text-gray-500">The tool or language used to write the smart contract.</p>
+              </div>
+  
+              <div id="source_url" class="col-span-6 sm:col-span-4">
+                <label for="id_source_url" class="block text-sm font-medium text-gray-700">Source URL</label>
+                <input type="url" name="source_url" id="id_source_url" autocomplete="source_url" class="mt-1 py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                <p class="mt-2 text-sm text-gray-500">The url of the source code. *Paste raw github url</p>
+                {{ appVersionForm.source_url.errors }}
+              </div>
+  
+              <div id="source_approval_url" class="col-span-6 sm:col-span-4">
+                <label for="id_source_approval_url" class="block text-sm font-medium text-gray-700">Source Approval URL</label>
+                <input type="url" name="source_approval_url" id="id_source_approval_url" autocomplete="source_url" class="mt-1 py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                <p class="mt-2 text-sm text-gray-500">The url of the source code. *Paste raw github url</p>
+                {{ appVersionForm.source_approval_url.errors }}
+              </div>
+  
+              <div id="source_clear_state_url" class="col-span-6 sm:col-span-4">
+                <label for="id_source_clear_state_url" class="block text-sm font-medium text-gray-700">Source Clear State URL</label>
+                <input type="url" name="source_clear_state_url" id="id_source_clear_state_url" autocomplete="source_clear_state_url" class="mt-1 py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                <p class="mt-2 text-sm text-gray-500">The url of the source code. *Paste raw github url</p>
+                {{ appVersionForm.source_clear_state_url.errors }}
+              </div>
+  
+              <div id="pyteal-version" class="col-span-6 sm:col-span-4">
+                <label for="id_source_pyteal_version" class="block text-sm font-medium text-gray-700">Teal Version</label>
+                <input type="number" name="source_pyteal_version" id="id_source_pyteal_version" value="{{ appVersionForm.source_pyteal_version.value }}" autocomplete="app" class="mt-1 py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                {{ appVersionForm.source_pyteal_version.errors }}
+                <p class="mt-2 text-sm text-gray-500">The teal version of the smart contract.</p>
+              </div>
+  
+              <div id="pyteal-mode" class="col-span-6 sm:col-span-3">
+                <label for="id_source_pyteal_mode" class="block text-sm font-medium text-gray-700">Smart Contract Type</label>
+                <select id="id_source_pyteal_mode" name="source_pyteal_mode" value="{{ appVersionForm.source_pyteal_mode.value }}" autocomplete="source_pyteal_mode" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <option value="SIG" selected>Signature</option>
+                  <option value="APP">Application</option>
+                </select>
+                {{ appVersionForm.source_pyteal_mode.errors }}
+              </div>
+  
+              <div id="source_raw">
+                  <label for="id_source_raw" class="block text-sm font-medium text-gray-700">Source Code</label>
+                  <div class="mt-1">
+                    <textarea id="id_source_raw" name="source_raw" rows="5" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                  </div>
+                  {{ appVersionForm.source_raw.errors }}
+              </div>
+  
+              <div id="source_approval">
+                <label for="id_source_approval" class="block text-sm font-medium text-gray-700">Source Approval</label>
+                <div class="mt-1">
+                  <textarea id="id_source_approval" name="source_approval" rows="5" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                </div>
+                {{ appVersionForm.source_approval.errors }}
+              </div>
+  
+              <div id="source_clear_state">
+                <label for="id_source_clear_state" class="block text-sm font-medium text-gray-700">Source Clear State</label>
+                <div class="mt-1">
+                  <textarea id="id_source_clear_state" name="source_clear_state" rows="5" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                </div>
+                {{ appVersionForm.source_clear_state.errors }}
+              </div>
+            </div>
+            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+              <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Verify</button>
+            </div>
+      </div>
+    </form>
+</div>
+{% endblock content %}
