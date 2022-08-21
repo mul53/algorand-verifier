@@ -16,7 +16,11 @@ class AppVersionForm(ModelForm):
     def clean_source_version(self):
         version = self.cleaned_data['source_version']
     
-        app = App.objects.get(id=self.data['id'])
+        try:
+            app = App.objects.get(id=self.data['id'])
+        except:
+            app = None
+
         if app:
             appVersion = AppVersion.objects.filter(app=app).last()
 
