@@ -135,4 +135,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CSRF_TRUSTED_ORIGINS = ['https://mysterious-falls-27839.herokuapp.com', 'https://*.127.0.0.1']
+
 django_heroku.settings(locals())
